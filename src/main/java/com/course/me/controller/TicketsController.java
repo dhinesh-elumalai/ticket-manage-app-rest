@@ -19,7 +19,7 @@ public class TicketsController {
 	
 	List<Ticket> tickets = new ArrayList();
 	
-	private int availableTickets = 20;
+	private int availableTickets = 40;
 
 
 	@PostMapping("/tickets")
