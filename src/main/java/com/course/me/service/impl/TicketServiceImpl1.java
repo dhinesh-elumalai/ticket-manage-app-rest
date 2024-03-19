@@ -1,4 +1,4 @@
-package com.course.me.service;
+package com.course.me.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.course.me.model.Ticket;
+import com.course.me.service.TicketService;
 
 @Service
 public class TicketServiceImpl1 implements TicketService{

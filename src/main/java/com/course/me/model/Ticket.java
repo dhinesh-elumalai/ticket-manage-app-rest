@@ -1,12 +1,25 @@
 package com.course.me.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="TICKET")
 public class Ticket {
+	@Id
+	@Column(name="ID")
 	private int id;
+	@Column(name="SOURCE", nullable = false)
 	private String source;
+	@Column(name="DESTINATION", nullable = false)
 	private String destination;
+	@Column(name="COST")
 	private double cost;
+	@Column(name="TRAVEL_DATE")
 	private String travelDate;
+	
 	public int getId() {
 		return id;
 	}
