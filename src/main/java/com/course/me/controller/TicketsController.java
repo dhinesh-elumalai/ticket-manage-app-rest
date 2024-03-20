@@ -10,35 +10,38 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.course.me.dto.TicketDTO;
 import com.course.me.model.Ticket;
 import com.course.me.service.TicketService;
 
 @RestController
+@RequestMapping("/tickets")
 public class TicketsController {
 	
     @Autowired
     @Qualifier("ticketService")
 	TicketService ticketService;
 	
-	@PostMapping("/tickets")
-	public Ticket bookTicket(@RequestBody Ticket ticket) {
+	@PostMapping("/")
+	public Ticket bookTicket(@RequestBody TicketDTO ticket) {
 		return ticketService.bookTicket(ticket);
 	}
 	
-	@GetMapping("/tickets")
-	public List<Ticket> getAllTickets(){
+	@GetMapping("/")
+	public List<TicketDTO> getAllTickets(){
 		return ticketService.getAllTickets();
 	}
 	
 	
-	@PutMapping("/tickets/{ticketId}")
+	@PutMapping("/{ticketId}")
 	public String updateTicket(@PathVariable("ticketId") int ticketId, @RequestBody Ticket ticket) {
 		return ticketService.updateTicket(ticketId, ticket);
 	}
 	
-	@DeleteMapping("/tickets/{ticketId}")
+	@DeleteMapping("/{ticketId}")
 	public String deleteTicket(@PathVariable("ticketId") int ticketId) {
 		return ticketService.deleteTicket(ticketId);
 	}
