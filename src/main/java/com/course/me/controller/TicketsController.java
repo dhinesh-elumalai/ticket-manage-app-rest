@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,24 +28,24 @@ public class TicketsController {
 	TicketService ticketService;
 	
 	@PostMapping("/")
-	public Ticket bookTicket(@RequestBody TicketDTO ticket) {
-		return ticketService.bookTicket(ticket);
+	public ResponseEntity<Ticket> bookTicket(@RequestBody TicketDTO ticket) {
+		return new ResponseEntity<>(ticketService.bookTicket(ticket), HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/")
-	public List<TicketDTO> getAllTickets(){
-		return ticketService.getAllTickets();
+	public ResponseEntity<List<TicketDTO>> getAllTickets(){
+		return new ResponseEntity<>(ticketService.getAllTickets(), HttpStatus.OK);
 	}
 	
 	
 	@PutMapping("/{ticketId}")
-	public String updateTicket(@PathVariable("ticketId") int ticketId, @RequestBody Ticket ticket) {
-		return ticketService.updateTicket(ticketId, ticket);
+	public ResponseEntity<String> updateTicket(@PathVariable("ticketId") int ticketId, @RequestBody Ticket ticket) {
+		return new ResponseEntity<>(ticketService.updateTicket(ticketId, ticket), HttpStatus.ACCEPTED);
 	}
 	
 	@DeleteMapping("/{ticketId}")
-	public String deleteTicket(@PathVariable("ticketId") int ticketId) {
-		return ticketService.deleteTicket(ticketId);
+	public ResponseEntity<String> deleteTicket(@PathVariable("ticketId") int ticketId) {
+		return new ResponseEntity<>(ticketService.deleteTicket(ticketId), HttpStatus.ACCEPTED);
 	}
 	
 }

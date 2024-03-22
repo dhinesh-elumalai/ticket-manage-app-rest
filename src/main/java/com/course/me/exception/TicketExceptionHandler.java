@@ -1,5 +1,6 @@
 package com.course.me.exception;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -7,9 +8,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class TicketExceptionHandler {
 
 	@ExceptionHandler(TicketException.class)
-	public String ticketExceptionHandler(TicketException ticketException) {
+	public ResponseEntity<String> ticketExceptionHandler(TicketException ticketException) {
 		System.out.println(ticketException.getMessage());
-		return ticketException.getMessage();
+		return new ResponseEntity<String>(ticketException.getMessage(), ticketException.getStatusCode());
 	}
 	
 }

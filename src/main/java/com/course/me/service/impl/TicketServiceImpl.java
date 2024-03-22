@@ -10,6 +10,7 @@ import javax.sound.midi.Soundbank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.course.me.dto.TicketDTO;
@@ -41,14 +42,18 @@ public class TicketServiceImpl implements TicketService{
 			return ticketRepository.save(this.converTicketDTOToEntity(ticketDto));
 		} catch (Exception sqlException) {
 			System.out.println(sqlException.getMessage());
-			throw new TicketException(500, sqlException.getMessage(), sqlException);
+			throw new TicketException(HttpStatus.INTERNAL_SERVER_ERROR, sqlException.getMessage(), sqlException);
 		}
 
 	}
 	
 	
 	public List<TicketDTO> getAllTickets(){
-		return ticketRepository.findAll().stream().map(this::convertEntityToDTO).collect(Collectors.toList());
+		List<Ticket> tickets= ticketRepository.findAll();
+		if(tickets.isEmpty()) {
+			throw new TicketException(HttpStatus.NO_CONTENT, "Ticket List is Empty", null);
+		}
+		return tickets.stream().map(this::convertEntityToDTO).collect(Collectors.toList());
 	}
 	
 	
@@ -57,7 +62,7 @@ public class TicketServiceImpl implements TicketService{
 			ticketRepository.save(ticket);
 			return "Ticket found with id " + ticketId + " and updated successfully!";
 		}
-		throw new TicketException(404, "Ticket Not found with id " + ticketId, null);
+		throw new TicketException(HttpStatus.NO_CONTENT, "Ticket Not found with id " + ticketId, null);
 	}
 	
 	
@@ -66,14 +71,14 @@ public class TicketServiceImpl implements TicketService{
 			ticketRepository.deleteById(ticketId);
 			return "Ticket found with id " + ticketId + " and updated successfully!";
 		}
-		throw new TicketException(404, "Ticket Not found with id " + ticketId, null);
+		throw new TicketException(HttpStatus.NO_CONTENT, "Ticket Not found with id " + ticketId, null);
 	}
 	
 	
 	private Ticket converTicketDTOToEntity(TicketDTO ticketDto) {
 		Optional<Employee> employeeOpt = employeeRepository.findById(ticketDto.getAssignedToId());
 		if(!employeeOpt.isPresent()) {
-			throw new TicketException(404, "Employee Id is not valid / found", null);
+			throw new TicketException(HttpStatus.NO_CONTENT, "Employee Id is not valid / found", null);
 		}
 		Ticket ticket = new Ticket();
 		ticket.setAssignedTo(employeeOpt.get());

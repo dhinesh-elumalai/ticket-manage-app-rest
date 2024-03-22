@@ -1,19 +1,20 @@
 package com.course.me.exception;
 
+import org.springframework.http.HttpStatus;
 
 public class TicketException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
-
-	private int statusCode;
 	
-	public int getStatusCode() {
-		return statusCode;
+	private HttpStatus httpStatus;
+	
+	public HttpStatus getStatusCode() {
+		return httpStatus;
 	}
 
-	public TicketException(int statusCode, String message, Throwable cause) {
+	public TicketException(HttpStatus httpStatus, String message, Throwable cause) {
         super(message, cause);
-        this.statusCode = statusCode;
+        this.httpStatus = httpStatus;
     }
 	
 	

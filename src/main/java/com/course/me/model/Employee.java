@@ -1,10 +1,13 @@
 package com.course.me.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,7 +24,6 @@ public class Employee {
 	private String email;
 	@Column(name="department")
 	private double department;
-	
 	
 	public int getId() {
 		return id;
