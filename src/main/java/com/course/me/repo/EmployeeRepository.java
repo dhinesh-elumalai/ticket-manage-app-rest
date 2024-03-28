@@ -15,6 +15,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	List<Employee> findByDepartment(String department);
 	List<Employee> findByDepartmentAndEmail(String department, String email);
 	
-	@Query("select * from EMPLOYEE where email=?")
-	List<Employee> getByEmail(String email);
+//	@Query("select * from EMPLOYEE where email=:1")
+//	List<Employee> getByEmail(String email);
 }
