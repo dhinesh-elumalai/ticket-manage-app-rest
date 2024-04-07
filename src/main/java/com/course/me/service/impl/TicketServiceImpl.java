@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
 import com.course.me.dto.TicketDTO;
 import com.course.me.enums.Priority;
 import com.course.me.exception.TicketException;
-import com.course.me.model.Employee;
+import com.course.me.model.User;
 import com.course.me.model.Ticket;
-import com.course.me.repo.EmployeeRepository;
+import com.course.me.repo.UserRepository;
 import com.course.me.repo.TicketRepository;
 import com.course.me.service.TicketService;
 
@@ -30,7 +30,7 @@ public class TicketServiceImpl implements TicketService{
 	private TicketRepository ticketRepository;
 	
 	@Autowired
-	private EmployeeRepository employeeRepository;
+	private UserRepository employeeRepository;
 	
 	private int availableTickets = 40;
 	
@@ -76,7 +76,7 @@ public class TicketServiceImpl implements TicketService{
 	
 	
 	private Ticket converTicketDTOToEntity(TicketDTO ticketDto) {
-		Optional<Employee> employeeOpt = employeeRepository.findById(ticketDto.getAssignedToId());
+		Optional<User> employeeOpt = employeeRepository.findById(ticketDto.getAssignedToId());
 		if(!employeeOpt.isPresent()) {
 			throw new TicketException(HttpStatus.NO_CONTENT, "Employee Id is not valid / found", null);
 		}

@@ -14,7 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
-@Component
+//@Component
 public class MyFilter extends GenericFilterBean {
 	
 	private String username ="user";

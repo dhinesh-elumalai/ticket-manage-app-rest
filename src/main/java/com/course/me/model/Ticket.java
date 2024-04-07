@@ -40,62 +40,9 @@ public class Ticket {
 	private int priority;
 	
 	@OneToOne
-	private Employee assignedTo;
+	private User assignedTo;
 	
 	@Column(name="createdBy")
 	private String createdBy;
-	
-	
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public double getCategory() {
-		return category;
-	}
-	public void setCategory(double category) {
-		this.category = category;
-	}
-	public String getDepartment() {
-		return department;
-	}
-	public void setDepartment(String department) {
-		this.department = department;
-	}
-	public int getPriority() {
-		return priority;
-	}
-	public void setPriority(int priority) {
-		this.priority = priority;
-	}
-	public Employee getAssignedTo() {
-		return assignedTo;
-	}
-	public void setAssignedTo(Employee assignedTo) {
-		this.assignedTo = assignedTo;
-	}
-	public String getCreatedBy() {
-		return createdBy;
-	}
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-	
-	
 	
 }
