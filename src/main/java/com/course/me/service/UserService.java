@@ -2,14 +2,15 @@ package com.course.me.service;
 
 import java.util.List;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.core.userdetails.UserDetailsService;
+
 
 import com.course.me.dto.LoginRequestDTO;
 import com.course.me.dto.LoginResponseDTO;
 import com.course.me.dto.UserRequestDTO;
 import com.course.me.dto.UserResponseDTO;
 
-public interface UserService extends UserDetailsService{
+public interface UserService {
 
 	public String createUser(UserRequestDTO userRequestDto);
 	

@@ -2,6 +2,7 @@ package com.course.me.controller;
 
 import java.util.List;
 
+import com.course.me.dto.ResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -22,19 +23,18 @@ import com.course.me.service.TicketService;
 
 @RestController
 @RequestMapping("/tickets")
-@CrossOrigin("https://stackoverflow.com")
 public class TicketsController {
 	
     @Autowired
     @Qualifier("ticketService")
 	TicketService ticketService;
 	
-	@PostMapping("/")
-	public ResponseEntity<Ticket> bookTicket(@RequestBody TicketDTO ticket) {
-		return new ResponseEntity<>(ticketService.bookTicket(ticket), HttpStatus.CREATED);
+	@PostMapping("")
+	public ResponseDTO<Ticket> bookTicket(@RequestBody TicketDTO ticket) {
+		return new ResponseDTO<Ticket>().successResponse(ticketService.bookTicket(ticket),"Ticket booked Successfully");
 	}
 	
-	@GetMapping("/")
+	@GetMapping("")
 	public ResponseEntity<List<TicketDTO>> getAllTickets(){
 		return new ResponseEntity<>(ticketService.getAllTickets(), HttpStatus.OK);
 	}

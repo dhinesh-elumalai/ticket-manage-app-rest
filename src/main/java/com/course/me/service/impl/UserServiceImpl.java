@@ -1,18 +1,20 @@
 package com.course.me.service.impl;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.course.me.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.course.me.dto.LoginRequestDTO;
@@ -23,37 +25,38 @@ import com.course.me.exception.TicketException;
 import com.course.me.model.User;
 import com.course.me.repo.UserRepository;
 import com.course.me.service.UserService;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService{
+public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
-	private PasswordEncoder bCryptPasswordEncoder;
+//	@Autowired
+//	private PasswordEncoder bCryptPasswordEncoder;
 	
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
-		Optional<User> userOpt = userRepository.findByEmail(username);
-		
-		if(userOpt.isPresent()) {
-			Set<GrantedAuthority> authorities = new HashSet<>();
-			userOpt.get().getRoles().forEach((role)->{
-				GrantedAuthority authority = ()->role;
-				authorities.add(authority);
-			});
-			org.springframework.security.core.userdetails.User
-														.builder()
-													    .username(username)
-													    .password(userOpt.get().getPassword())
-													    .authorities(authorities).build();
-		}
-		
-		throw new UsernameNotFoundException("Invalid Email Id / Username not present");
-		
-	}
+//	@Override
+//	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//
+//		Optional<User> userOpt = userRepository.findByEmail(username);
+//
+//		if(userOpt.isPresent()) {
+//			Set<GrantedAuthority> authorities = new HashSet<>();
+//			userOpt.get().getRoles().forEach((role)->{
+//				GrantedAuthority authority = ()->role;
+//				authorities.add(authority);
+//			});
+//			org.springframework.security.core.userdetails.User
+//														.builder()
+//													    .username(username)
+//													    .password(userOpt.get().getPassword())
+//													    .authorities(authorities).build();
+//		}
+//
+//		throw new UsernameNotFoundException("Invalid Email Id / Username not present");
+//
+//	}
 
 	@Override
 	public String createUser(UserRequestDTO userRequestDto) {
@@ -91,8 +94,13 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 
 	@Override
 	public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<User> userOptional = userRepository.findByEmail(loginRequestDTO.getEmail());
+		if(userOptional.isPresent()){
+			User user = userOptional.get();
+			String token = JWTUtil.createToken(user);
+			return new LoginResponseDTO(token, token, Instant.now().getEpochSecond() + 29*60*1000);
+		}
+		throw new TicketException(HttpStatus.UNAUTHORIZED,"Invalid Username", null);
 	}
 
 	/**
@@ -107,7 +115,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 		user.setEmail(userRequestDto.getEmail());
 		user.setName(userRequestDto.getName());
 		user.setRoles(new HashSet<String>());
-		user.setPassword(bCryptPasswordEncoder.encode(userRequestDto.getPassword()));
+		user.setPassword(Base64Coder.encodeString(userRequestDto.getPassword()));
 		return user;
 	}
 	

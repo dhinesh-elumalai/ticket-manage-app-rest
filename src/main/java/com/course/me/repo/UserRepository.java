@@ -12,6 +12,7 @@ import com.course.me.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
 	Optional<User> findByEmail(String email);
+	boolean existsByEmail(String email);
 	List<User> findByDepartment(String department);
 	List<User> findByDepartmentAndEmail(String department, String email);
 }

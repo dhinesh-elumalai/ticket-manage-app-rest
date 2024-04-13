@@ -17,7 +17,7 @@ public class LoginResponseDTO {
 	@JsonProperty("refresh_token")
 	private String refreshToken;
 	
-	@JsonProperty("expires_in")
+	@JsonProperty("expires_at")
 	private long expiresIn;
 
 }
